@@ -30,40 +30,49 @@
     <main>
         <section class="hero-section">
             <div class="container">
-                <div class="hero-text">
-                    <h1 class="hero-headline">A New Foundation is not only Possible—<br>It is being built.</h1>
-                    <p class="hero-subtitle">We apply the scientific method to social systems, engineering a sustainable, resource-based future outside of outdated political and economic structures.</p>
-                    <div class="hero-buttons">
-                        <a href="contribute.html" class="btn btn-primary">Engage Protocol</a>
-                        <a href="our-vision.html" class="btn btn-secondary">Access Blueprint</a>
+                <div class="hero-display">
+                    <div class="hero-text-content">
+                        <h1 class="hero-headline">Design The Future.<br>Implement it Now.</h1>
+                        <p class="hero-subtitle">We are a community-driven initiative applying raw logic and systems thinking to build tangible proof-of-concept projects for a resource-based economy.</p>
+                        <div class="hero-buttons">
+                            <a href="contribute.html" class="btn btn-primary">Engage Protocol</a>
+                            <a href="our-vision.html" class="btn btn-secondary">Access Blueprint</a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="hero-visual">
-                    <div class="visual-placeholder">
-                        <div class="visual-overlay"></div>
-                    </div>
+                    <div class="hero-display-corners"></div>
                 </div>
             </div>
         </section>
-
-        <section class="why-now-section">
+        
+        <section class="why-now-section anim-fade-in">
             <div class="container">
-                <h2><span class="text-accent">//</span> Why Direct Action? The Failure of Existing Logic</h2>
-                <div class="problem-solution-grid">
-                    <div class="info-card">
-                        <h3>Monetary System Failure</h3>
-                        <ul>
-                            <li>Infinite growth on a finite planet creates systemic instability and resource depletion.</li>
-                            <li>Competition is prioritized over logical, efficient solutions for human needs.</li>
-                        </ul>
+                <h2><span class="text-accent">//</span> Analysis: Current System vs. Proposed Logic</h2>
+                
+                <nav class="tabs-nav">
+                    <button type="button" class="tab-button active" data-tab="problem">System Failure Analysis</button>
+                    <button type="button" class="tab-button" data-tab="solution">Proposed Systemic Solution</button>
+                </nav>
+
+                <div class="tabs-content">
+                    <div class="tab-pane active" id="problem">
+                        <div class="info-card">
+                            <h3>Monetary System Inefficiencies</h3>
+                            <p>The requirement for infinite growth on a finite planet creates artificial scarcity, systemic instability, and prioritizes profit over logical, efficient solutions for human needs.</p>
+                        </div>
+                         <div class="info-card">
+                            <h3>"Cultural Logic" Paralysis</h3>
+                            <p>Societies are often bound by outdated traditions and dogma, preventing the implementation of superior, evidence-based solutions to global challenges that technology has already solved.</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <h3>Our Systemic Solution</h3>
-                        <ul>
-                            <li>Applying the scientific method to resource management and social design.</li>
-                            <li>Building tangible, proof-of-concept projects that demonstrate a better way.</li>
-                        </ul>
+                    <div class="tab-pane" id="solution">
+                        <div class="info-card">
+                            <h3>The Scientific Method for Social Concern</h3>
+                            <p>We approach societal problems as technical challenges that require technical solutions, removing opinion and tradition in favor of data-driven, systems-based design.</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>Tangible Proof-of-Concept</h3>
+                            <p>Instead of waiting for institutional change, we build and deploy real-world projects that demonstrate the viability and benefits of a resource-based economic model, today.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,11 +82,10 @@
     <footer class="site-footer">
         <div class="container">
             <p>System Status: Online | &copy; 2025 Future Foundations Now</p>
-            <p class="disclaimer">
-                Future Foundations Now is an independent, volunteer-led initiative. We are not officially affiliated with or endorsed by The Venus Project organization.
-            </p>
         </div>
     </footer>
+
+    <script src="main.js"></script>
 
 </body>
 </html>

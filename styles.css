@@ -1,15 +1,15 @@
 /* ===================================
-   V4 CSS: The "Holographic Interface" Theme
+   V5 CSS: "Holographic Interface - Slick Dark"
    =================================== */
 
 :root {
-    /* A clean, high-tech color palette. */
-    --color-background: #0A101C;      /* A very dark, cool navy blue */
-    --color-surface: #121A2B;         /* A slightly lighter surface color */
-    --color-text: #BFC8D8;            /* A muted, calm blue-grey for text */
-    --color-heading: #FFFFFF;         /* Pure white for headings */
-    --color-accent: #00FFFF;          /* A sharp, vibrant Cyan for the "holographic" light */
-    --color-border: rgba(0, 255, 255, 0.2); /* A faint cyan for borders */
+    /* Darker, "slicker" color palette */
+    --color-background: #020408;      /* Near-black for a deeper, slicker feel */
+    --color-surface: #0A101C;         /* The previous background color is now the surface color */
+    --color-text: #BFC8D8;            
+    --color-heading: #FFFFFF;         
+    --color-accent: #00FFFF;          
+    --color-border: rgba(0, 255, 255, 0.15);
     
     --font-heading: 'Orbitron', sans-serif;
     --font-body: 'Poppins', sans-serif;
@@ -17,7 +17,7 @@
 }
 
 /* ===================================
-   Base & Global Setup
+   Base & Animation Setup
    =================================== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -28,169 +28,154 @@ body {
     font-weight: 300;
 }
 
-.container {
-    width: 90%;
-    max-width: var(--container-width);
-    margin: 0 auto;
+.container { width: 90%; max-width: var(--container-width); margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-heading); color: var(--color-heading); font-weight: 500; }
+p { line-height: 1.7; margin-bottom: 1rem; max-width: 60ch; } /* Slightly shorter line length */
+.text-accent { color: var(--color-accent); }
+
+/* Animation for elements fading in on scroll */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.anim-fade-in {
+    /* This will be triggered by JavaScript in a future step for on-scroll animation. For now, it animates on load. */
+    animation: fadeIn 0.8s ease-out forwards;
 }
 
-h1, h2, h3 { font-family: var(--font-heading); color: var(--color-heading); font-weight: 500; }
-p { line-height: 1.7; margin-bottom: 1rem; }
-.text-accent { color: var(--color-accent); } /* A helper class for accent color text */
-
-
 /* ===================================
-   Header & Navigation
+   Header (No major changes)
    =================================== */
 .site-header {
-    padding: 1rem 0;
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(10, 16, 28, 0.8);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(11, 23, 46, 0.5);
+    padding: 1rem 0; position: sticky; top: 0; z-index: 100;
+    background: rgba(2, 4, 8, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(10, 16, 28, 0.8);
 }
 .site-header .container, .main-nav ul { display: flex; align-items: center; }
 .site-header .container { justify-content: space-between; }
-.logo a {
-    font-family: var(--font-heading); font-size: 1.5rem; text-decoration: none;
-    color: var(--color-heading);
-}
+.logo a { font-family: var(--font-heading); font-size: 1.5rem; text-decoration: none; color: var(--color-heading); }
 .main-nav ul { list-style: none; gap: 2rem; }
-.main-nav a {
-    color: var(--color-text); text-decoration: none; font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
+.main-nav a { color: var(--color-text); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
 .main-nav a:hover { color: var(--color-accent); }
 
-
 /* ===================================
-   New Hero Section - CSS Grid Layout
+   Evolved "HUD" Hero Section
    =================================== */
 .hero-section {
-    padding: 5rem 0; /* Reduced padding to make it feel less overwhelming */
-}
-.hero-section .container {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr); /* A 12-column grid for precise control */
-    align-items: center;
-    gap: 2rem;
+    padding: 6rem 0;
 }
 
-/* The hero text will span the first 7 columns */
-.hero-text {
-    grid-column: 1 / span 7;
-    position: relative; /* For z-index stacking */
-    z-index: 2;
-}
-
-/* The visual element will span from column 6 to the end, creating an overlap */
-.hero-visual {
-    grid-column: 6 / -1;
-    position: relative;
-    z-index: 1;
-}
-
-/* REFINED TYPOGRAPHY to solve the "too big" issue */
-.hero-headline {
-    /* clamp() creates fluid typography that scales with the screen size */
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: 1.5rem;
-}
-.hero-subtitle {
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    max-width: 50ch; /* Limits line length for readability */
-    margin-bottom: 2rem;
-}
-.hero-buttons { display: flex; gap: 1rem; }
-
-/* The placeholder is styled to look like part of the UI */
-.visual-placeholder {
-    aspect-ratio: 16 / 9; /* Creates a responsive 16:9 box */
+.hero-display {
+    aspect-ratio: 16 / 7; /* A wider, more cinematic aspect ratio */
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 8px;
+    padding: 4%; /* Use percentage for responsive padding */
+    display: flex;
+    align-items: center; /* Vertically center the text content */
     position: relative;
     overflow: hidden;
-    /* This can be replaced with an actual image or video */
-    background-image: url('https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2940&auto=format&fit=crop');
+    /* Placeholder background image. Replace with a cool abstract/tech graphic */
+    background-image: linear-gradient(rgba(10, 16, 28, 0.85), rgba(10, 16, 28, 0.85)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2940&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
 }
 
-/* The scanline overlay effect */
-.visual-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(10, 16, 28, 0.5), rgba(10, 16, 28, 0.5)),
-                repeating-linear-gradient(0deg, transparent, transparent 2px, var(--color-background) 2px, var(--color-background) 4px);
-    opacity: 0.5;
+/* Subtle animated grid lines on the hero display */
+.hero-display::after {
+    content: '';
+    position: absolute; top: 0; left: 0; width: 200%; height: 200%;
+    background: repeating-linear-gradient(45deg, transparent, transparent 49.5%, var(--color-border) 50%, transparent 50.5%);
+    background-size: 100px 100px;
+    opacity: 0.2;
+    animation: moveGrid 20s linear infinite;
+}
+@keyframes moveGrid {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-100px, -100px); }
+}
+
+.hero-text-content {
+    position: relative; /* To sit on top of the ::after pseudo-element */
+    z-index: 2;
+}
+.hero-headline { font-size: clamp(2.2rem, 5vw, 4.2rem); margin-bottom: 1.5rem; }
+.hero-subtitle { font-size: clamp(1rem, 2vw, 1.1rem); color: var(--color-text); margin-bottom: 2rem; }
+.hero-buttons { display: flex; gap: 1rem; }
+
+/* Refined button styles for a slicker feel */
+.btn {
+    font-family: var(--font-heading); padding: 10px 24px;
+    border-radius: 4px; border: 1px solid var(--color-border);
+    background: transparent; color: var(--color-text); text-decoration: none;
+    transition: all 0.3s ease; font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+}
+.btn-primary {
+    background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-background);
+}
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+.btn-primary:hover {
+    background-color: #33FFFF; border-color: #33FFFF;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
 }
 
 /* ===================================
-   Buttons & Cards - Refined and Subtle
+   Interactive Tabs Section
    =================================== */
-.btn {
-    font-family: var(--font-heading);
-    padding: 10px 24px;
-    border-radius: 4px;
-    border: 1px solid var(--color-border);
-    background: transparent;
-    color: var(--color-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-.btn-primary {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
-    color: var(--color-background);
-}
-/* A much more subtle hover effect */
-.btn:hover {
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-    transform: translateY(-2px);
-}
-.btn-primary:hover {
-    background-color: #00FFFF;
-    border-color: #00FFFF;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-}
+.why-now-section { padding: 6rem 0; }
+.why-now-section h2 { text-align: left; margin-bottom: 2rem; }
 
-.why-now-section {
-    padding: 5rem 0;
-    border-top: 1px solid var(--color-surface);
+.tabs-nav {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2rem;
 }
-.why-now-section h2 { text-align: left; margin-bottom: 3rem; }
+.tab-button {
+    font-family: var(--font-heading); font-size: 1rem; color: var(--color-text);
+    background: none; border: none; padding: 1rem 1.5rem;
+    cursor: pointer; position: relative;
+    transition: color 0.3s ease;
+}
+.tab-button::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+.tab-button.active { color: var(--color-heading); }
+.tab-button.active::after { transform: scaleX(1); }
 
-.problem-solution-grid {
-    display: grid;
+.tab-pane {
+    display: none; /* Hide all panes by default */
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    animation: fadeIn 0.5s ease;
 }
+.tab-pane.active {
+    display: grid; /* Show the active one as a grid */
+}
+
 .info-card {
     background-color: var(--color-surface);
-    border: 1px solid transparent;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     padding: 2rem;
     transition: all 0.3s ease;
 }
-.info-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--color-border);
-}
+.info-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 .info-card h3 { color: var(--color-accent); font-size: 1.2rem; margin-bottom: 1rem; }
-.info-card ul { list-style: none; }
-.info-card li { margin-bottom: 0.5rem; }
-
 
 /* ===================================
    Footer
    =================================== */
 .site-footer {
-    padding: 2rem 0;
-    margin-top: 5rem;
+    padding: 2rem 0; margin-top: 5rem;
     border-top: 1px solid var(--color-surface);
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--color-text);
+    text-align: center; font-size: 0.9rem; color: var(--color-text);
 }
-.disclaimer { font-size: 0.8rem; opacity: 0.5; margin-top: 0.5rem; }
