@@ -6,7 +6,8 @@
 :root {
     --color-background: #000000;
     --color-accent-red: #1bae0b; /* "Protocol Red" */
-    --color-text-body: #E0E0E0;  /* Readable white for paragraphs */
+    --color-matrix-green: #00FF41; /* "Matrix Green" */
+    --color-text-body: #00FF41;  /* Green text inside boxes white for paragraphs */
     --color-text-header: #FFFFFF; /* Brighter white for titles */
     --font-main: 'VT323', monospace;
     --collapsed-width: 100px;
@@ -48,6 +49,15 @@ body {
     flex-shrink: 0;
     border-bottom: 2px solid var(--color-accent-red);
     background-color: rgba(0,0,0,0.8);
+}
+
+/* ===================================
+   Two-Column Page Layout
+   =================================== */
+.page-content-wrapper {
+    display: flex; /* This is the key: arrange children side-by-side */
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .logo-prompt {
@@ -171,11 +181,11 @@ body {
 
 .section-body h3 {
     font-size: 1.5rem;
-    color: var(--color-text-header);
+    color: var(--color-matrix-green); 
     margin-top: 6rem; /* Push content down below the repositioned title */
     margin-bottom: 1rem;
     text-align: center;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 8px var(--color-matrix-green);
 }
 .section-body p {
     font-size: 1.1rem;
@@ -183,5 +193,56 @@ body {
     margin: 0 auto;
     text-align: center;
     color: var(--color-text-body);
+    text-shadow: none;
+}
+
+/* --- Sidebar Feature (Right - Fixed Width) --- */
+.sidebar-feature {
+    width: var(--sidebar-width); /* Fixed width for the sidebar */
+    border-left: 2px solid var(--color-accent-red);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+    text-align: center;
+    background: rgba(10, 0, 3, 0.7);
+    flex-shrink: 0; /* Prevent it from shrinking */
+    overflow: auto; /* Allow scrolling if content overflows */
+}
+
+.logo-scene {
+    perspective: 1000px;
+    width: 200px; height: 200px;
+    margin-bottom: 2rem; /* Add some space below the logos */
+}
+.logo-spinner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spin 20s infinite linear;
+}
+@keyframes spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+.spinner-face {
+    position: absolute; width: 100%; height: 100%;
+    object-fit: contain;
+    backface-visibility: hidden;
+}
+#ffn-logo {
+    transform: rotateY(0deg) translateZ(100px); /* Adjusted translateZ for better 3D effect in sidebar */
+}
+#tvp-logo {
+    transform: rotateY(180deg) translateZ(100px); /* Adjusted translateZ */
+}
+.quote-area {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-accent-red);
+}
+.quote {
+    font-size: 1.2rem;
     text-shadow: none;
 }
