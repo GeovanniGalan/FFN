@@ -1,170 +1,187 @@
 /* ===================================
-   V6 CSS: "Focus-Expansion Matrix" Theme
+   V17 CSS: The Definitive "Data Stream"
+   This file combines the dynamic header and horizontal accordion.
    =================================== */
 
 :root {
     --color-background: #000000;
-    --color-matrix-green: #00FF41;
-    --color-text: var(--color-matrix-green);
-    --font-main: 'VT323', monospace; /* The quintessential Matrix/Terminal font */
+    --color-accent-red: #1bae0b; /* "Protocol Red" */
+    --color-text-body: #E0E0E0;  /* Readable white for paragraphs */
+    --color-text-header: #FFFFFF; /* Brighter white for titles */
+    --font-main: 'VT323', monospace;
+    --collapsed-width: 100px;
+    --expanded-width: 550px; /* Slightly increased for more content room */
 }
 
 /* ===================================
    Base & Global Setup
    =================================== */
-* { box-sizing: border-box; }
+* { 
+    box-sizing: border-box; 
+}
 
 body {
     background-color: var(--color-background);
-    color: var(--color-text);
+    color: var(--color-text-body);
     font-family: var(--font-main);
     font-size: 18px;
-    text-shadow: 0 0 5px var(--color-matrix-green); /* The iconic text glow */
-    overflow: hidden; /* Hide body scrollbars */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* The canvas for the digital rain effect */
 #matrix-rain {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Place it behind all content */
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; z-index: -1;
+    
 }
 
 /* ===================================
-   Header & Navigation
+   Dynamic Header
    =================================== */
 .site-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    background: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+    flex-shrink: 0;
+    border-bottom: 2px solid var(--color-accent-red);
+    background-color: rgba(0,0,0,0.8);
 }
-.logo { font-size: 2rem; }
-.main-nav { display: flex; gap: 1.5rem; }
+
+.logo-prompt {
+    font-size: 2.2rem;
+    color: var(--color-text-header);
+    text-shadow: 0 0 8px var(--color-accent-red);
+}
+
+.cursor {
+    display: inline-block;
+    background-color: var(--color-accent-red);
+    margin-left: 8px;
+    animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+    from, to { background-color: transparent; }
+    50% { background-color: var(--color-accent-red); }
+}
+
+.status-indicators {
+    font-size: 1.2rem;
+    color: var(--color-accent-red);
+    text-shadow: 0 0 5px var(--color-accent-red);
+}
+.status-indicators span {
+    margin: 0 1rem;
+}
+
+.main-nav { 
+    display: flex; 
+    gap: 1.5rem; 
+}
 .nav-link {
-    color: var(--color-text);
+    color: var(--color-text-header);
     text-decoration: none;
     font-size: 1.2rem;
     transition: all 0.3s ease;
 }
 .nav-link:hover {
-    background-color: var(--color-matrix-green);
+    background-color: var(--color-accent-red);
     color: var(--color-background);
     text-shadow: none;
 }
 
 /* ===================================
-   The Focus-Expansion Container
+   Horizontal Expanding Panels
    =================================== */
-.focus-container {
+.horizontal-container {
     display: flex;
-    flex-direction: column; /* Stack sections vertically */
-    height: 100vh; /* Make the container fill the whole screen height */
-    padding-top: 70px; /* Space for the fixed header */
-}
-
-.expandable-section {
-    flex-grow: 1; /* By default, all sections share space equally */
-    flex-shrink: 1;
-    flex-basis: 0; /* This is key for equal distribution */
-    overflow: hidden; /* Hide the content that doesn't fit in the collapsed state */
-    border-top: 2px solid var(--color-matrix-green);
-    position: relative;
-    cursor: pointer;
-    
-    /* The magic transition for expansion and contraction */
-    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* THIS IS THE CORE OF THE EFFECT */
-.focus-container:hover .expandable-section:hover {
-    flex-grow: 10; /* The hovered section grows dramatically */
-    filter: none; /* Remove any filters */
-}
-.focus-container:hover .expandable-section:not(:hover) {
     flex-grow: 1;
-    filter: grayscale(80%) blur(2px); /* Non-hovered sections become "powered down" */
-    opacity: 0.5;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
+/* Custom scrollbar */
+.horizontal-container::-webkit-scrollbar { height: 10px; }
+.horizontal-container::-webkit-scrollbar-track { background: #000; border-top: 1px solid var(--color-accent-red); }
+.horizontal-container::-webkit-scrollbar-thumb { background: var(--color-accent-red); }
 
-/* ===================================
-   Section Content Styling
-   =================================== */
+.horizontal-section {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-right: 2px solid var(--color-accent-red);
+    background: rgba(20, 0, 5, 0.5);
+    flex-shrink: 0;
+    flex-basis: var(--collapsed-width);
+    transition: flex-basis 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.horizontal-section:hover {
+    flex-basis: var(--expanded-width);
+}
+
+.horizontal-container:hover .horizontal-section:not(:hover) {
+    opacity: 0.6;
+    filter: grayscale(50%);
+}
+
 .section-content {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     padding: 2rem;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.7); /* A dark overlay to make text readable over the rain */
+    justify-content: center;
 }
 
 .section-title {
     font-size: 2.5rem;
-    color: white; /* Make titles pop a bit more */
-    margin-bottom: 1.5rem;
+    color: var(--color-text-header);
+    text-shadow: 0 0 5px var(--color-accent-red);
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    white-space: nowrap;
+    transform: translateX(-50%) rotate(180deg);
+    transition: all 0.5s ease;
+}
+
+.horizontal-section:hover .section-title {
+    writing-mode: horizontal-tb;
+    transform: translateX(-50%) rotate(0deg);
+    bottom: auto;
+    top: 2rem;
+    left: 50%; /* Center the title horizontally */
+    text-align: center;
 }
 
 .section-body {
-    opacity: 0; /* Content is invisible by default */
-    transform: translateY(10px);
-    transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s; /* Fade in after a delay */
+    opacity: 0;
+    transition: opacity 0.4s ease 0.2s;
 }
 
-/* Show the content when the section is expanded */
-.expandable-section:hover .section-body {
+.horizontal-section:hover .section-body {
     opacity: 1;
-    transform: translateY(0);
 }
 
-#analysis-section .section-body, #solution-section .section-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
-
-.info-card {
-    border: 1px solid var(--color-matrix-green);
-    padding: 1.5rem;
-}
-.info-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: white;
-}
-
-.hero-subtitle {
+.section-body h3 {
     font-size: 1.5rem;
-    max-width: none;
-    margin-bottom: 2rem;
+    color: var(--color-text-header);
+    margin-top: 6rem; /* Push content down below the repositioned title */
+    margin-bottom: 1rem;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
-
-.hero-buttons { display: flex; gap: 1rem; }
-.btn {
-    font-family: var(--font-main);
-    font-size: 1rem;
-    padding: 10px 20px;
-    background: transparent;
-    border: 1px solid var(--color-matrix-green);
-    color: var(--color-matrix-green);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-.btn-primary {
-    background: var(--color-matrix-green);
-    color: var(--color-background);
-    text-shadow: none;
-}
-.btn:hover {
-    background: var(--color-matrix-green);
-    color: var(--color-background);
+.section-body p {
+    font-size: 1.1rem;
+    max-width: 45ch;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--color-text-body);
     text-shadow: none;
 }

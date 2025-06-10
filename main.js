@@ -1,51 +1,52 @@
-// main.js - For the Matrix digital rain effect
+// main.js - Powers the Digital Rain and Dynamic Header
 
-const canvas = document.getElementById('matrix-rain');
-const ctx = canvas.getContext('2d');
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- Digital Rain Effect ---
+    const canvas = document.getElementById('matrix-rain');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const alphabet = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const rainDrops = Array.from({ length: columns }).map(() => 1);
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    const drawRain = () => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00FF41'; // The rain canvas color is independent of the CSS theme
+        ctx.font = fontSize + 'px VT323';
+        for (let i = 0; i < rainDrops.length; i++) {
+        // Only draw a character if a random number is greater than 0.9, creating a sparser effect
+        if (Math.random() > 0.9) {
+            const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+            ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+        }
 
-// The characters that will be falling
-const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const nums = '0123456789';
-const alphabet = katakana + latin + nums;
-
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-
-// An array to store the y-position of each falling column
-const rainDrops = [];
-
-for (let x = 0; x < columns; x++) {
-    rainDrops[x] = 1;
-}
-
-const draw = () => {
-    // The semi-transparent black background creates the fading trail effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#00FF41'; // Matrix green
-    ctx.font = fontSize + 'px VT323';
-
-    for (let i = 0; i < rainDrops.length; i++) {
-        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-        // Reset the drop to the top randomly to make the rain uneven
         if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
             rainDrops[i] = 0;
         }
         rainDrops[i]++;
     }
-};
+    };
+    setInterval(drawRain, 20);
 
-setInterval(draw, 33);
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
 
-// Adjust canvas on window resize
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // --- System Date Updater for Header ---
+    function updateSystemDate() {
+        const dateElement = document.getElementById('system-date');
+        if (dateElement) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            dateElement.textContent = `[DATE: ${year}-${month}-${day}]`;
+        }
+    }
+    updateSystemDate();
 });
